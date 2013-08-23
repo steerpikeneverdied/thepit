@@ -1,5 +1,6 @@
 package com.icoplay.pit.camera
 {
+	import com.greensock.TimelineMax;
 	import com.greensock.TweenMax;
 
 	import flash.geom.Point;
@@ -13,10 +14,11 @@ package com.icoplay.pit.camera
 	{
 		private var _camera:FlxCamera;
 		private var _railPoints : Vector.<Point>;
-		private var _movementTween : TweenMax;
 		private var _transitionDelay : int = 1;
 		private var _currentCam : int = -1;
 		public var targetCoords : FlxPoint = new FlxPoint();
+		private var _transitioning:Boolean;
+		private var _movementTimeline:TimelineMax;
 
 		public function LevelCam()
 		{
@@ -51,7 +53,7 @@ package com.icoplay.pit.camera
 
 			distList.sortOn("value",Array.NUMERIC);
 
-			if(distList[0].screen !== _currentCam)
+			if(distList[0].screen !== _currentCam && !_transitioning)
 			{
 				transitionToScreen(distList[0].screen);
 			}
@@ -59,11 +61,6 @@ package com.icoplay.pit.camera
 
 		public function transitionToScreen(screenNo : int, callback : Function = null, callbackParams : Array = null) : void
 		{
-			if(_movementTween)
-			{
-				_movementTween.kill();
-			}
-
 			var params : Object = {};
 			params.x = _railPoints[screenNo-1].x;
 			params.y = _railPoints[screenNo-1].y;
@@ -74,7 +71,10 @@ package com.icoplay.pit.camera
 
 			_currentCam = screenNo;
 
-			_movementTween = new TweenMax(targetCoords, _transitionDelay, params);
+			_movementTimeline = new TimelineMax({onComplete:onTransitionComplete});
+			_movementTimeline.append(new TweenMax(targetCoords, _transitionDelay, params));
+
+			_transitioning = true;
 		}
 
 		public function setCamera(targetPoint : FlxPoint) : void
@@ -82,8 +82,16 @@ package com.icoplay.pit.camera
 			_camera.focusOn(targetPoint);
 		}
 
+		public function onTransitionComplete() : void
+		{
+			_movementTimeline._kill();
+			_movementTimeline = null;
+			_transitioning = false;
+		}
+
 		public function followSprite(sprite:FlxSprite):void
 		{
+			_camera.zoom = 4;
 			_camera.follow(sprite);
 		}
 	}
