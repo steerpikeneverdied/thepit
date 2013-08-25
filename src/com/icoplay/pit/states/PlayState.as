@@ -153,6 +153,11 @@ package com.icoplay.pit.states
 
 			if(_scoreIndicator)
 			{
+				if(_guiGroup.members.indexOf(_scoreIndicator))
+				{
+					_guiGroup.remove(_scoreIndicator);
+				}
+				
 				_scoreIndicator.destroy();
 				_scoreIndicator = null;
 			}
