@@ -1,7 +1,7 @@
 package com.icoplay.pit
 {
 	import com.icoplay.pit.states.PlayState;
-	import com.icoplay.pit.test.TestFlags;
+	import com.icoplay.pit.utils.BaseDefs;
 
 	import org.flixel.FlxG;
 	import org.flixel.FlxGame;
@@ -13,9 +13,9 @@ package com.icoplay.pit
 
 		public function PitGame()
 		{
-			super(_kGameWidth/TestFlags._kMagnification,_kGameHeight/TestFlags._kMagnification,PlayState,TestFlags._kMagnification, 60, 60, true);
+			super(_kGameWidth/BaseDefs._kMagnification,_kGameHeight/BaseDefs._kMagnification,PlayState,BaseDefs._kMagnification, 60, 60, true);
 
-			if(TestFlags._kFlxDebug == true)
+			if(BaseDefs._kFlxDebug == true)
 			{
 				FlxG.debug = true;
 				FlxG.visualDebug = true;

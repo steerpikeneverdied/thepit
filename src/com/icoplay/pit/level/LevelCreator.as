@@ -6,10 +6,8 @@ package com.icoplay.pit.level
 	import com.icoplay.pit.assets.level4;
 	import com.icoplay.pit.assets.level5;
 	import com.icoplay.pit.flxproxy.GrassTile;
-	import com.icoplay.utils.Sorter;
 
 	import flash.display.BitmapData;
-	import flash.geom.Point;
 
 	import flash.geom.Point;
 

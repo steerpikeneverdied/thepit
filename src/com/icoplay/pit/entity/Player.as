@@ -99,5 +99,11 @@ package com.icoplay.pit.entity
 				this.play("shooting");
 			}
 		}
+
+		public override function destroy() : void
+		{
+			FlxControl.clear();
+			super.destroy();
+		}
 	}
 }

@@ -35,7 +35,7 @@ package com.icoplay.pit.camera
 			_railPoints = value;
 		}
 
-		public function checkCameraLocation(playerX:Number, playerY:Number):void
+		public function transitionCameraLocation(playerX:Number, playerY:Number, instantFocus :Boolean = false):void
 		{
 			var distList : Array = [];
 
@@ -55,7 +55,16 @@ package com.icoplay.pit.camera
 
 			if(distList[0].screen !== _currentCam && !_transitioning)
 			{
-				transitionToScreen(distList[0].screen);
+				if(instantFocus == false)
+				{
+					transitionToScreen(distList[0].screen);
+				} else {
+					targetCoords.x = playerX;
+					targetCoords.y = playerY;
+
+					setCamera(targetCoords);
+					_currentCam = distList[0].screen;
+				}
 			}
 		}
 
@@ -93,6 +102,36 @@ package com.icoplay.pit.camera
 		{
 			_camera.zoom = 4;
 			_camera.follow(sprite);
+		}
+
+		public function destroy():void
+		{
+			if(_camera)
+			{
+				_camera = null;
+			}
+
+			if(_railPoints)
+			{
+				for(var i : int = 0; i<_railPoints.length; i++)
+				{
+					_railPoints[i] = null;
+				}
+
+				_railPoints.length = 0;
+				_railPoints = null;
+			}
+
+			if(targetCoords)
+			{
+				targetCoords = null;
+			}
+
+			if(_movementTimeline)
+			{
+				_movementTimeline.kill();
+				_movementTimeline = null;
+			}
 		}
 	}
 }
