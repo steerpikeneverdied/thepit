@@ -64,6 +64,7 @@ package com.icoplay.pit.utils.counters
 
 				if(time.toString() !== text && time < (_dangerTime))
 				{
+					this.color = 0xFFFF0000;
 					pulseNumber(time);
 				}
 				setText(time.toString());

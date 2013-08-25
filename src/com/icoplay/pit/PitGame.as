@@ -1,5 +1,6 @@
 package com.icoplay.pit
 {
+	import com.greensock.TweenMax;
 	import com.icoplay.pit.states.PlayState;
 	import com.icoplay.pit.utils.BaseDefs;
 
@@ -24,7 +25,6 @@ package com.icoplay.pit
 
 		public function destroy():void
 		{
-
 		}
 	}
 }

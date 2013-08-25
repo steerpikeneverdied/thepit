@@ -1,8 +1,12 @@
 package com.icoplay.pit.entity
 {
 	import com.icoplay.pit.flxproxy.PlayerSpriteSheet;
+	import com.icoplay.pit.level.LevelCreator;
+	import com.icoplay.pit.utils.BaseDefs;
+	import com.icoplay.pit.weapon.Weapon;
 
 	import org.flixel.FlxG;
+	import org.flixel.FlxGroup;
 	import org.flixel.FlxObject;
 	import org.flixel.FlxRect;
 	import org.flixel.FlxSprite;
@@ -13,14 +17,21 @@ package com.icoplay.pit.entity
 	public class Player extends FlxSprite
 	{
 		private static const _kDefaultHeightOffset:int = 2;
+		private var _playerWeapon:FlxWeapon;
+		private var _weaponGroup:FlxGroup;
+		private var _currentWeapon:Weapon;
+		private var _levelCreator:LevelCreator;
 
-		public function Player(offsetX : int = -1)
+		public function Player(weaponGroup : FlxGroup, levelCreator: LevelCreator, weapon : Weapon, offsetX : int = -1)
 		{
 			super();
 
+			this._weaponGroup = weaponGroup;
+			this._levelCreator = levelCreator;
 			loadSpriteSheet();
 			changeOffset(offsetX);
-			setupVariables();
+			setControls();
+			setWeapon(weapon);
 		}
 
 		private function changeOffset(offsetX:int):void
@@ -40,11 +51,12 @@ package com.icoplay.pit.entity
 		{
 			loadGraphic(PlayerSpriteSheet,true,true,22,23);
 			addAnimation("walk", [5, 6, 7, 8, 9], 12, true);
-			addAnimation("shooting", [0, 1, 2, 3, 4], 30, true);
+			addAnimation("shoot", [0, 1, 2, 3, 4], 30, true);
+			addAnimation("jump", [0, 1, 2, 3, 4], 30, true);
 			addAnimation("idle", [10, 11, 12, 13, 14], 12, true);
 		}
 
-		private function setupVariables() : void
+		private function setControls() : void
 		{
 			activatePlugin();
 			setPlayerControls();
@@ -56,9 +68,27 @@ package com.icoplay.pit.entity
 			FlxControl.player1.setWASDControl(true, false, true, true);
 			FlxControl.player1.setJumpButton("SPACE", FlxControlHandler.KEYMODE_PRESSED, 200, FlxObject.FLOOR, 250, 200);
 
-			FlxControl.player1.setMovementSpeed(400, 0, 100, 200, 400, 0);
+			FlxControl.player1.setMovementSpeed(400, 0, 100, 200, 700, 0);
 
-			FlxControl.player1.setGravity(0, 400);
+			FlxControl.player1.setGravity(0, BaseDefs._kGravity);
+		}
+
+		private function setWeapon(weap : Weapon):void
+		{
+			_currentWeapon = weap;
+
+			_playerWeapon = new FlxWeapon(weap.name, this, "x", "y");
+
+			_playerWeapon.makeImageBullet(50,weap.imgClass, 0, height/2);
+			_playerWeapon.setBulletSpeed(weap.speed);
+			_playerWeapon.setBulletRandomFactor(weap.accuracy);
+			_playerWeapon.setBulletGravity(weap.gravity.x, weap.gravity.y);
+			_playerWeapon.setFireRate(weap.frequency);
+
+			//	This allows bullets to live within the bounds rect (stops them visually falling lower than the road)
+			_playerWeapon.setBulletBounds(new FlxRect(0, 0, 1000, 1000));
+
+			_weaponGroup.add(_playerWeapon.group);
 		}
 
 		private function activatePlugin():void
@@ -73,6 +103,10 @@ package com.icoplay.pit.entity
 		{
 			updateControlHandler();
 			animateSprite();
+			if (FlxG.mouse.pressed())
+			{
+				_playerWeapon.fireAtMouse();
+			}
 			super.update();
 		}
 
@@ -96,12 +130,29 @@ package com.icoplay.pit.entity
 			}
 			else if(velocity.y < 0)
 			{
-				this.play("shooting");
+				this.play("jump");
 			}
 		}
 
 		public override function destroy() : void
 		{
+			if(_weaponGroup)
+			{
+				_weaponGroup.remove(_playerWeapon.group);
+			}
+
+			if(_playerWeapon)
+			{
+				_playerWeapon.group = null;
+				_playerWeapon.bounds = null;
+				_playerWeapon = null;
+			}
+
+			if(_levelCreator)
+			{
+				_levelCreator = null;
+			}
+
 			FlxControl.clear();
 			super.destroy();
 		}

@@ -4,7 +4,7 @@ package com.icoplay.pit.utils.counters
 
 	public class CounterSettings
 	{
-		public static const DEFAULT : CounterSettings = new CounterSettings(CountdownNumerals, 14, 14, "0123456789", 10, 4);
+		public static const DEFAULT : CounterSettings = new CounterSettings(CountdownNumerals, 14, 14, "0123456789:", 10, 4);
 
 		private var _font:Class;
 		private var _width:int;

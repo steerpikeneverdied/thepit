@@ -4,8 +4,10 @@ package com.icoplay.pit.states
 	import com.icoplay.pit.level.LevelCreator;
 	import com.icoplay.pit.entity.Player;
 	import com.icoplay.pit.utils.BaseDefs;
-	import com.icoplay.pit.utils.BaseDefs;
 	import com.icoplay.pit.utils.counters.DefaultCounter;
+	import com.icoplay.pit.weapon.WeaponLibrary;
+
+	import org.flixel.FlxBasic;
 
 	import org.flixel.FlxG;
 	import org.flixel.FlxGroup;
@@ -21,7 +23,8 @@ package com.icoplay.pit.states
 		private var _player:Player;
 		private var _scoreIndicator:DefaultCounter;
 		private var _guiGroup:FlxGroup;
-		private var _gameOver:Boolean;
+		private var _weaponGroup:FlxGroup;
+		private var _fxGroup:FlxGroup;
 
 		public override function create():void
 		{
@@ -36,14 +39,18 @@ package com.icoplay.pit.states
 
 		private function createGroups():void
 		{
-			_playerGroup = new FlxGroup();
 			_levelGroup = new FlxGroup();
 			_collectibleGroup = new FlxGroup();
+			_weaponGroup = new FlxGroup();
+			_playerGroup = new FlxGroup();
+			_fxGroup = new FlxGroup();
 			_guiGroup = new FlxGroup();
 
-			add(_playerGroup);
 			add(_levelGroup);
 			add(_collectibleGroup);
+			add(_weaponGroup);
+			add(_playerGroup);
+			add(_fxGroup);
 			add(_guiGroup);
 		}
 
@@ -55,7 +62,7 @@ package com.icoplay.pit.states
 
 		private function createPlayer():void
 		{
-			_player = new Player();
+			_player = new Player(_weaponGroup, _levelCreator, WeaponLibrary.getWeapon(WeaponLibrary.RIFLE));
 			_player.x = _levelCreator.levelWidth*1.5;
 			_playerGroup.add(_player);
 		}
@@ -103,6 +110,12 @@ package com.icoplay.pit.states
 
 		private function destroyGroup(_group:FlxGroup):void
 		{
+			for each(var flxObj : FlxObject in _group)
+			{
+				flxObj.destroy();
+				_group.remove(flxObj);
+			}
+
 			_group.destroy();
 		}
 
@@ -110,24 +123,42 @@ package com.icoplay.pit.states
 		{
 			if(_levelGroup)
 			{
+				remove(_levelGroup);
 				destroyGroup(_levelGroup);
 				_levelGroup = null;
 			}
 
-			if(_playerGroup)
-			{
-				destroyGroup(_playerGroup);
-				_playerGroup = null;
-			}
-
 			if(_collectibleGroup)
 			{
+				remove(_collectibleGroup);
 				destroyGroup(_collectibleGroup);
 				_collectibleGroup = null;
 			}
 
+			if(_weaponGroup)
+			{
+				remove(_weaponGroup);
+				destroyGroup(_weaponGroup);
+				_weaponGroup = null;
+			}
+
+			if(_playerGroup)
+			{
+				remove(_playerGroup);
+				destroyGroup(_playerGroup);
+				_playerGroup = null;
+			}
+
+			if(_fxGroup)
+			{
+				remove(_fxGroup);
+				destroyGroup(_fxGroup);
+				_fxGroup = null;
+			}
+
 			if(_guiGroup)
 			{
+				remove(_guiGroup);
 				destroyGroup(_guiGroup);
 				_guiGroup = null;
 			}
@@ -140,18 +171,11 @@ package com.icoplay.pit.states
 
 			if(_player)
 			{
-				_player.destroy();
 				_player = null;
 			}
 
 			if(_scoreIndicator)
 			{
-				if(_guiGroup.members.indexOf(_scoreIndicator))
-				{
-					_guiGroup.remove(_scoreIndicator);
-				}
-
-				_scoreIndicator.destroy();
 				_scoreIndicator = null;
 			}
 
