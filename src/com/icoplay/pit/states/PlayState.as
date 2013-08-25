@@ -21,6 +21,7 @@ package com.icoplay.pit.states
 		private var _player:Player;
 		private var _scoreIndicator:DefaultCounter;
 		private var _guiGroup:FlxGroup;
+		private var _gameOver:Boolean;
 
 		public override function create():void
 		{
@@ -102,19 +103,11 @@ package com.icoplay.pit.states
 
 		private function destroyGroup(_group:FlxGroup):void
 		{
-			var obj : FlxObject;
-
-			for each(obj in _group)
-			{
-				obj.destroy();
-				obj = null;
-			}
+			_group.destroy();
 		}
 
 		public override function destroy() : void
 		{
-			super.destroy();
-
 			if(_levelGroup)
 			{
 				destroyGroup(_levelGroup);
@@ -157,7 +150,7 @@ package com.icoplay.pit.states
 				{
 					_guiGroup.remove(_scoreIndicator);
 				}
-				
+
 				_scoreIndicator.destroy();
 				_scoreIndicator = null;
 			}
@@ -167,6 +160,8 @@ package com.icoplay.pit.states
 				_camera.destroy();
 				_camera = null;
 			}
+
+			super.destroy();
 		}
 	}
 }

@@ -108,6 +108,7 @@ package com.icoplay.pit.camera
 		{
 			if(_camera)
 			{
+				FlxG.removeCamera(_camera);
 				_camera = null;
 			}
 

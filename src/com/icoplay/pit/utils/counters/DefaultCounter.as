@@ -1,6 +1,7 @@
 package com.icoplay.pit.utils.counters
 {
 	import com.greensock.TweenMax;
+	import com.greensock.easing.Elastic;
 	import com.greensock.easing.Linear;
 
 	import org.flixel.FlxCamera;
@@ -11,7 +12,12 @@ package com.icoplay.pit.utils.counters
 	{
 		private var _cam:FlxCamera;
 		private var _countTween : TweenMax;
+		private var _pulseTween : TweenMax;
+		private const _kPulseScale : Number = 1.5;
+		private const _kPulseDuration : Number = 0.5;
 		public var _counterTotal:int;
+		private var _dangerTime:int;
+		private var _kDangerZone:Number = 0.3;
 
 		public function DefaultCounter(xPos:int, yPos:int, counterTotal:int, callback : Function)
 		{
@@ -27,12 +33,18 @@ package com.icoplay.pit.utils.counters
 		private function setInitialValue(counterTotal:int):void
 		{
 			_counterTotal = counterTotal;
+			_dangerTime = counterTotal * _kDangerZone;
+
 			setText(counterTotal.toString());
 		}
 
 		private function createCustomCam(xPos:int, yPos:int, cs:CounterSettings):void
 		{
-			_cam = new FlxCamera(xPos - (width*cs.magnification), yPos, width, height, cs.magnification);
+			var scWidth : Number = width*_kPulseScale;
+			var scHeight : Number = height*_kPulseScale;
+
+			_cam = new FlxCamera(xPos - (scWidth*cs.magnification), yPos, scWidth, scHeight, cs.magnification);
+			_cam.bgColor = 0x0;
 			_cam.follow(this);
 			FlxG.addCamera(_cam);
 		}
@@ -46,8 +58,37 @@ package com.icoplay.pit.utils.counters
 		{
 			if(_cam)
 			{
-				setText(_counterTotal.toString());
+				_cam.fill(0xFFFFFFFF, false);
+				_cam.fill(0x0, false);
+				var time : int = int(_counterTotal);
+
+				if(time.toString() !== text && time < (_dangerTime))
+				{
+					pulseNumber(time);
+				}
+				setText(time.toString());
 			}
+		}
+
+		private function pulseNumber(time : Number):void
+		{
+			var params : Object = {};
+			params.y = params.x = 1 + ((_kPulseScale-1) * (1-(time/_dangerTime)));
+			params.onComplete = resetScale;
+			params.ease = Elastic.easeOut;
+
+			_pulseTween = new TweenMax(this.scale, _kPulseDuration, params);
+		}
+
+		private function resetScale():void
+		{
+			if(_pulseTween)
+			{
+				_pulseTween.kill();
+			}
+
+			scale.x = 1;
+			scale.y = 1;
 		}
 
 		public override function destroy() : void

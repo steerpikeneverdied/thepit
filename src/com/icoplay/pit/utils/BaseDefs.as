@@ -4,6 +4,6 @@ package com.icoplay.pit.utils
 	{
 		public static const _kFlxDebug : Boolean    = true;
 		public static const _kMagnification : int   = 2;
-		public static const _kLevelTime : int       = 5;
+		public static const _kLevelTime : int       = 10;
 	}
 }
