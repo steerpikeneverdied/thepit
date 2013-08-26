@@ -3,6 +3,7 @@ package com.icoplay.pit.entity
 	import com.icoplay.pit.asset.RefLib;
 	import com.icoplay.pit.level.LevelCreator;
 	import com.icoplay.pit.utils.BaseDefs;
+	import com.icoplay.pit.utils.BaseDefs;
 	import com.icoplay.pit.weapon.Weapon;
 
 	import org.flixel.FlxG;
@@ -50,10 +51,10 @@ package com.icoplay.pit.entity
 		private function loadSpriteSheet():void
 		{
 			loadGraphic(RefLib.PlayerSpriteSheet,true,true,22,23);
-			addAnimation("walk", [5, 6, 7, 8, 9], 12, true);
+			addAnimation("walk", [5, 6, 7, 8, 9], BaseDefs._kFXFrameRate, true);
 			addAnimation("shoot", [0, 1, 2, 3, 4], 30, true);
 			addAnimation("jump", [0, 1, 2, 3, 4], 30, true);
-			addAnimation("idle", [10, 11, 12, 13, 14], 12, true);
+			addAnimation("idle", [10, 11, 12, 13, 14], BaseDefs._kFXFrameRate, true);
 		}
 
 		private function setControls() : void

@@ -1,6 +1,9 @@
 package com.icoplay.pit.states
 {
 	import com.icoplay.pit.camera.LevelCam;
+	import com.icoplay.pit.entity.Explosion;
+	import com.icoplay.pit.entity.SimpleFX;
+	import com.icoplay.pit.entity.Target;
 	import com.icoplay.pit.level.LevelCreator;
 	import com.icoplay.pit.entity.Player;
 	import com.icoplay.pit.utils.BaseDefs;
@@ -12,6 +15,7 @@ package com.icoplay.pit.states
 	import org.flixel.FlxG;
 	import org.flixel.FlxGroup;
 	import org.flixel.FlxObject;
+	import org.flixel.FlxU;
 
 	public class PlayState extends BaseState
 	{
@@ -25,6 +29,7 @@ package com.icoplay.pit.states
 		private var _guiGroup:FlxGroup;
 		private var _weaponGroup:FlxGroup;
 		private var _fxGroup:FlxGroup;
+		private var _objectGroup:FlxGroup;
 
 		public override function create():void
 		{
@@ -33,6 +38,25 @@ package com.icoplay.pit.states
 			createGroups();
 			createLevelSelection();
 			createPlayer();
+			createTarget();
+			createTarget();
+			createTarget();
+			createTarget();
+			createTarget();
+			createTarget();
+			createTarget();
+			createTarget();
+			createTarget();
+			createTarget();
+			createTarget();
+			createTarget();
+			createTarget();
+			createTarget();
+			createTarget();
+			createTarget();
+			createTarget();
+			createTarget();
+			createTarget();
 			createCamera();
 			createScore();
 		}
@@ -43,6 +67,7 @@ package com.icoplay.pit.states
 			_collectibleGroup = new FlxGroup();
 			_weaponGroup = new FlxGroup();
 			_playerGroup = new FlxGroup();
+			_objectGroup = new FlxGroup();
 			_fxGroup = new FlxGroup();
 			_guiGroup = new FlxGroup();
 
@@ -50,6 +75,7 @@ package com.icoplay.pit.states
 			add(_collectibleGroup);
 			add(_weaponGroup);
 			add(_playerGroup);
+			add(_objectGroup);
 			add(_fxGroup);
 			add(_guiGroup);
 		}
@@ -65,6 +91,15 @@ package com.icoplay.pit.states
 			_player = new Player(_weaponGroup, _levelCreator, WeaponLibrary.getWeapon(WeaponLibrary.RIFLE));
 			_player.x = _levelCreator.levelWidth*1.5;
 			_playerGroup.add(_player);
+		}
+
+		private function createTarget():void
+		{
+			var target : Target = new Target();
+			target.x = 450+Math.random()*450;
+			target.y = 100+Math.random()*100;
+
+			_objectGroup.add(target);
 		}
 
 		private function createCamera():void
@@ -95,7 +130,37 @@ package com.icoplay.pit.states
 		{
 			checkCollisionGroups();
 			checkCameraLocation();
+			checkDeadFX();
 			super.update();
+		}
+
+		private function checkCollisionGroups():void
+		{
+			FlxG.collide(_playerGroup, _levelGroup);
+			FlxG.overlap(_weaponGroup, _objectGroup, onTargetHit);
+		}
+
+		private function onTargetHit(Object1:FlxObject,Object2:FlxObject):void
+		{
+			checkTarget(Object1);
+			checkTarget(Object2);
+		}
+
+		private function checkTarget(Object:FlxObject):void
+		{
+			var className : String = FlxU.getClassName(Object);
+			className = (className.substr(className.lastIndexOf('.'))).substr(1);
+
+			if(className == Target.NAME)
+			{
+				var explosion : Explosion = new Explosion(Explosion.LARGE);
+				explosion.x = Object.x - explosion.width/2;
+				explosion.y = Object.y - explosion.height/2;
+				_fxGroup.add(explosion);
+
+				_objectGroup.remove(Object);
+				Object.destroy();
+			}
 		}
 
 		private function checkCameraLocation() : void
@@ -103,9 +168,14 @@ package com.icoplay.pit.states
 			_camera.transitionCameraLocation(_player.x, _player.y);
 		}
 
-		private function checkCollisionGroups():void
+		private function checkDeadFX():void
 		{
-			FlxG.collide(_playerGroup, _levelGroup);
+			while(_fxGroup.countDead()>0)
+			{
+				var deadFX : FlxBasic = _fxGroup.getFirstDead();
+				_fxGroup.remove(deadFX);
+				deadFX.destroy();
+			}
 		}
 
 		private function destroyGroup(_group:FlxGroup):void
@@ -147,6 +217,13 @@ package com.icoplay.pit.states
 				remove(_playerGroup);
 				destroyGroup(_playerGroup);
 				_playerGroup = null;
+			}
+
+			if(_objectGroup)
+			{
+				remove(_objectGroup);
+				destroyGroup(_objectGroup);
+				_objectGroup = null;
 			}
 
 			if(_fxGroup)
