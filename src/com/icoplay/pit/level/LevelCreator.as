@@ -1,18 +1,13 @@
 package com.icoplay.pit.level
 {
-	import com.icoplay.pit.assets.level1;
-	import com.icoplay.pit.assets.level2;
-	import com.icoplay.pit.assets.level3;
-	import com.icoplay.pit.assets.level4;
-	import com.icoplay.pit.assets.level5;
-	import com.icoplay.pit.flxproxy.GrassTile;
+	import com.icoplay.pit.asset.RefLib;
 
+	import flash.display.Bitmap;
 	import flash.display.BitmapData;
-
 	import flash.geom.Point;
-
 	import org.flixel.FlxGroup;
 	import org.flixel.FlxTilemap;
+
 	public class LevelCreator
 	{
 		private const _kLevelsPerGame : int = 5;
@@ -38,11 +33,11 @@ package com.icoplay.pit.level
 
 		private function populateLevelList():void
 		{
-			_levelList.push(level1);
-			_levelList.push(level2);
-			_levelList.push(level3);
-			_levelList.push(level4);
-			_levelList.push(level5);
+			_levelList.push(RefLib.Level1);
+			_levelList.push(RefLib.Level2);
+			_levelList.push(RefLib.Level3);
+			_levelList.push(RefLib.Level4);
+			_levelList.push(RefLib.Level5);
 		}
 
 		public function createLevelMap(levelGroup:FlxGroup):void
@@ -71,7 +66,7 @@ package com.icoplay.pit.level
 		{
 			var levelMap : FlxTilemap = new FlxTilemap();
 
-			levelMap.loadMap(FlxTilemap.bitmapToCSV(createLevelBitmap(levelToLoad)),GrassTile, 11, 11, FlxTilemap.OFF);
+			levelMap.loadMap(FlxTilemap.bitmapToCSV(getBitmapData(levelToLoad)),RefLib.SoilTiles, 11, 11, FlxTilemap.OFF);
 
 			levelMap.x = offset.x * levelMap.width;
 			levelMap.y = offset.y * levelMap.height;
@@ -89,9 +84,13 @@ package com.icoplay.pit.level
 			levelHeight = levelMap.height;
 		}
 
-		private static function createLevelBitmap(levelToLoad:Class):BitmapData
+		private static function getBitmapData(levelToLoad:Class):BitmapData
 		{
-			var levelBitmapData : BitmapData = new levelToLoad() as BitmapData;
+			var bitmap : Bitmap = new levelToLoad() as Bitmap;
+			var levelBitmapData : BitmapData = bitmap.bitmapData.clone();
+
+			bitmap.bitmapData = null;
+			bitmap = null;
 
 			return levelBitmapData;
 		}

@@ -1,6 +1,6 @@
 package com.icoplay.pit.entity
 {
-	import com.icoplay.pit.flxproxy.PlayerSpriteSheet;
+	import com.icoplay.pit.asset.RefLib;
 	import com.icoplay.pit.level.LevelCreator;
 	import com.icoplay.pit.utils.BaseDefs;
 	import com.icoplay.pit.weapon.Weapon;
@@ -49,7 +49,7 @@ package com.icoplay.pit.entity
 
 		private function loadSpriteSheet():void
 		{
-			loadGraphic(PlayerSpriteSheet,true,true,22,23);
+			loadGraphic(RefLib.PlayerSpriteSheet,true,true,22,23);
 			addAnimation("walk", [5, 6, 7, 8, 9], 12, true);
 			addAnimation("shoot", [0, 1, 2, 3, 4], 30, true);
 			addAnimation("jump", [0, 1, 2, 3, 4], 30, true);
