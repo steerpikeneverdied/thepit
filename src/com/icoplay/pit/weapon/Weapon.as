@@ -3,6 +3,8 @@ package com.icoplay.pit.weapon
 	import flash.geom.Point;
 	public class Weapon
 	{
+		public static const BULLET : String = 'Bullet';
+
 		private var _name : String;
 		private var _speed : Number;
 		private var _frequency : Number;

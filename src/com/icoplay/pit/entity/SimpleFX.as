@@ -34,7 +34,6 @@ package com.icoplay.pit.entity
 			if(animationName == SINGLE)
 			{
 				_currentFrame = currentFrame;
-				trace(currentFrame);
 			}
 		}
 

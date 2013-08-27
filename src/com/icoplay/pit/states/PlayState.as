@@ -2,12 +2,13 @@ package com.icoplay.pit.states
 {
 	import com.icoplay.pit.camera.LevelCam;
 	import com.icoplay.pit.entity.Explosion;
-	import com.icoplay.pit.entity.SimpleFX;
 	import com.icoplay.pit.entity.Target;
 	import com.icoplay.pit.level.LevelCreator;
 	import com.icoplay.pit.entity.Player;
 	import com.icoplay.pit.utils.BaseDefs;
+	import com.icoplay.pit.utils.FlxSort;
 	import com.icoplay.pit.utils.counters.DefaultCounter;
+	import com.icoplay.pit.weapon.Weapon;
 	import com.icoplay.pit.weapon.WeaponLibrary;
 
 	import org.flixel.FlxBasic;
@@ -16,6 +17,7 @@ package com.icoplay.pit.states
 	import org.flixel.FlxGroup;
 	import org.flixel.FlxObject;
 	import org.flixel.FlxU;
+	import org.flixel.plugin.photonstorm.BaseTypes.Bullet;
 
 	public class PlayState extends BaseState
 	{
@@ -65,16 +67,16 @@ package com.icoplay.pit.states
 		{
 			_levelGroup = new FlxGroup();
 			_collectibleGroup = new FlxGroup();
-			_weaponGroup = new FlxGroup();
 			_playerGroup = new FlxGroup();
+			_weaponGroup = new FlxGroup();
 			_objectGroup = new FlxGroup();
 			_fxGroup = new FlxGroup();
 			_guiGroup = new FlxGroup();
 
 			add(_levelGroup);
 			add(_collectibleGroup);
-			add(_weaponGroup);
 			add(_playerGroup);
+			add(_weaponGroup);
 			add(_objectGroup);
 			add(_fxGroup);
 			add(_guiGroup);
@@ -137,30 +139,39 @@ package com.icoplay.pit.states
 		private function checkCollisionGroups():void
 		{
 			FlxG.collide(_playerGroup, _levelGroup);
-			FlxG.overlap(_weaponGroup, _objectGroup, onTargetHit);
+			FlxG.collide(_weaponGroup, _objectGroup, onTargetHit);
+			FlxG.collide(_weaponGroup, _levelGroup, onLevelHit);
 		}
 
 		private function onTargetHit(Object1:FlxObject,Object2:FlxObject):void
 		{
-			checkTarget(Object1);
-			checkTarget(Object2);
+			var objArray : Array = FlxSort.sortCollision(Object1, Object2, Target.NAME, Weapon.BULLET);
+
+			if(FlxSort.getClassName(Object1) == Weapon.BULLET && FlxSort.getClassName(Object2) == Target.NAME)
+			{
+				createExplosion(Object2 as Target);
+				(Object1 as Bullet).exists = false;
+			}
 		}
 
-		private function checkTarget(Object:FlxObject):void
+		private function onLevelHit(Object1:FlxObject,Object2:FlxObject):void
 		{
-			var className : String = FlxU.getClassName(Object);
-			className = (className.substr(className.lastIndexOf('.'))).substr(1);
-
-			if(className == Target.NAME)
+			if(FlxSort.getClassName(Object1) == Weapon.BULLET)
 			{
-				var explosion : Explosion = new Explosion(Explosion.LARGE);
-				explosion.x = Object.x - explosion.width/2;
-				explosion.y = Object.y - explosion.height/2;
-				_fxGroup.add(explosion);
-
-				_objectGroup.remove(Object);
-				Object.destroy();
+				(Object1 as Bullet).exists = false;
 			}
+		}
+
+		private function createExplosion(target:Target):void
+		{
+			var explosion:Explosion = new Explosion(Explosion.LARGE);
+
+			explosion.x = target.x - explosion.width / 2.5;
+			explosion.y = target.y - explosion.height / 2;
+			_fxGroup.add(explosion);
+
+			_objectGroup.remove(target);
+			target.destroy();
 		}
 
 		private function checkCameraLocation() : void
@@ -205,18 +216,18 @@ package com.icoplay.pit.states
 				_collectibleGroup = null;
 			}
 
-			if(_weaponGroup)
-			{
-				remove(_weaponGroup);
-				destroyGroup(_weaponGroup);
-				_weaponGroup = null;
-			}
-
 			if(_playerGroup)
 			{
 				remove(_playerGroup);
 				destroyGroup(_playerGroup);
 				_playerGroup = null;
+			}
+
+			if(_weaponGroup)
+			{
+				remove(_weaponGroup);
+				destroyGroup(_weaponGroup);
+				_weaponGroup = null;
 			}
 
 			if(_objectGroup)
