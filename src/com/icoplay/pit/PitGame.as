@@ -9,8 +9,8 @@ package com.icoplay.pit
 
 	public class PitGame extends FlxGame
 	{
-		private const _kGameWidth : int = 836;
-		private const _kGameHeight : int = 836;
+		private const _kGameWidth : int = 660;
+		private const _kGameHeight : int = 660;
 
 		public function PitGame()
 		{

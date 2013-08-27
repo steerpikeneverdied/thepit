@@ -16,7 +16,6 @@ package com.icoplay.pit.states
 	import org.flixel.FlxG;
 	import org.flixel.FlxGroup;
 	import org.flixel.FlxObject;
-	import org.flixel.FlxU;
 	import org.flixel.plugin.photonstorm.BaseTypes.Bullet;
 
 	public class PlayState extends BaseState
@@ -40,26 +39,8 @@ package com.icoplay.pit.states
 			createGroups();
 			createLevelSelection();
 			createPlayer();
-			createTarget();
-			createTarget();
-			createTarget();
-			createTarget();
-			createTarget();
-			createTarget();
-			createTarget();
-			createTarget();
-			createTarget();
-			createTarget();
-			createTarget();
-			createTarget();
-			createTarget();
-			createTarget();
-			createTarget();
-			createTarget();
-			createTarget();
-			createTarget();
-			createTarget();
 			createCamera();
+			createTarget();
 			createScore();
 		}
 
@@ -109,7 +90,7 @@ package com.icoplay.pit.states
 			_camera = new LevelCam();
 			_camera.setBounds(0,0,_levelCreator.levelWidth*3,_levelCreator.levelHeight*3, true);
 			_camera.railPoints = _levelCreator.railPoints;
-			_camera.transitionCameraLocation(_player.x, _player.y, true);
+			_camera.transitionCameraLocation(_player, true);
 		}
 
 		private function createScore():void
@@ -176,7 +157,7 @@ package com.icoplay.pit.states
 
 		private function checkCameraLocation() : void
 		{
-			_camera.transitionCameraLocation(_player.x, _player.y);
+			_camera.transitionCameraLocation(_player);
 		}
 
 		private function checkDeadFX():void

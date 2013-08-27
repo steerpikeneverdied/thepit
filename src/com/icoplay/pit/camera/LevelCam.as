@@ -2,6 +2,7 @@ package com.icoplay.pit.camera
 {
 	import com.greensock.TimelineMax;
 	import com.greensock.TweenMax;
+	import com.icoplay.pit.entity.Player;
 
 	import flash.geom.Point;
 
@@ -35,15 +36,15 @@ package com.icoplay.pit.camera
 			_railPoints = value;
 		}
 
-		public function transitionCameraLocation(playerX:Number, playerY:Number, instantFocus :Boolean = false):void
+		public function transitionCameraLocation(player:Player, instantFocus :Boolean = false):void
 		{
 			var distList : Array = [];
 
 			for(var i : int = 0; i < _railPoints.length; i++)
 			{
 				var targetPoint : Point = _railPoints[i];
-				var diffX : Number = targetPoint.x-playerX;
-				var diffY : Number = targetPoint.y-playerY;
+				var diffX : Number = targetPoint.x-player.x;
+				var diffY : Number = targetPoint.y-player.y;
 
 				var diffTot : Number = diffX*diffX + diffY*diffY;
 				var hyp : Number = Math.sqrt(diffTot);
@@ -57,10 +58,10 @@ package com.icoplay.pit.camera
 			{
 				if(instantFocus == false)
 				{
-					transitionToScreen(distList[0].screen);
+					transitionToScreen(distList[0].screen, player);
 				} else {
-					targetCoords.x = playerX;
-					targetCoords.y = playerY;
+					targetCoords.x = player.x;
+					targetCoords.y = player.y;
 
 					setCamera(targetCoords);
 					_currentCam = distList[0].screen;
@@ -68,7 +69,7 @@ package com.icoplay.pit.camera
 			}
 		}
 
-		public function transitionToScreen(screenNo : int, callback : Function = null, callbackParams : Array = null) : void
+		public function transitionToScreen(screenNo : int, player:Player, callback : Function = null, callbackParams : Array = null) : void
 		{
 			var params : Object = {};
 			params.x = _railPoints[screenNo-1].x;
@@ -80,10 +81,12 @@ package com.icoplay.pit.camera
 
 			_currentCam = screenNo;
 
-			_movementTimeline = new TimelineMax({onComplete:onTransitionComplete});
+			_movementTimeline = new TimelineMax({onComplete:onTransitionComplete, onCompleteParams:[player]});
 			_movementTimeline.append(new TweenMax(targetCoords, _transitionDelay, params));
 
 			_transitioning = true;
+
+			player.pause();
 		}
 
 		public function setCamera(targetPoint : FlxPoint) : void
@@ -91,10 +94,11 @@ package com.icoplay.pit.camera
 			_camera.focusOn(targetPoint);
 		}
 
-		public function onTransitionComplete() : void
+		public function onTransitionComplete(player:Player) : void
 		{
 			_movementTimeline._kill();
 			_movementTimeline = null;
+			player.unpause();
 			_transitioning = false;
 		}
 

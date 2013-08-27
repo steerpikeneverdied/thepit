@@ -2,7 +2,7 @@ package com.icoplay.pit
 {
 	import flash.display.Sprite;
 
-	[SWF(width=836, height=836, frameRate=60)]
+	[SWF(width=660, height=660, frameRate=60)]
 
 	public class Bootstrap extends Sprite
 	{

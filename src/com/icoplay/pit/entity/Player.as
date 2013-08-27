@@ -3,11 +3,13 @@ package com.icoplay.pit.entity
 	import com.icoplay.pit.asset.RefLib;
 	import com.icoplay.pit.level.LevelCreator;
 	import com.icoplay.pit.utils.BaseDefs;
+	import com.icoplay.pit.utils.BaseDefs;
 	import com.icoplay.pit.weapon.Weapon;
 
 	import org.flixel.FlxG;
 	import org.flixel.FlxGroup;
 	import org.flixel.FlxObject;
+	import org.flixel.FlxPoint;
 	import org.flixel.FlxRect;
 	import org.flixel.FlxSprite;
 	import org.flixel.plugin.photonstorm.FlxControl;
@@ -21,6 +23,9 @@ package com.icoplay.pit.entity
 		private var _weaponGroup:FlxGroup;
 		private var _currentWeapon:Weapon;
 		private var _levelCreator:LevelCreator;
+		private var _paused:Boolean;
+
+		private var _zeroPoint : FlxPoint = new FlxPoint(0,0);
 
 		public function Player(weaponGroup : FlxGroup, levelCreator: LevelCreator, weapon : Weapon, offsetX : int = -1)
 		{
@@ -54,6 +59,7 @@ package com.icoplay.pit.entity
 			addAnimation("shoot", [0, 1, 2, 3, 4], 30, true);
 			addAnimation("jump", [0, 1, 2, 3, 4], 30, true);
 			addAnimation("idle", [10, 11, 12, 13, 14], 10, true);
+			addAnimation("pause", [0], 15, false);
 		}
 
 		private function setControls() : void
@@ -68,7 +74,8 @@ package com.icoplay.pit.entity
 			FlxControl.player1.setWASDControl(true, false, true, true);
 			FlxControl.player1.setJumpButton("SPACE", FlxControlHandler.KEYMODE_PRESSED, 200, FlxObject.FLOOR, 250, 200);
 
-			FlxControl.player1.setMovementSpeed(400, 0, 100, 200, 700, 0);
+			var spd : Array = BaseDefs._kPlayerSpeed;
+			FlxControl.player1.setMovementSpeed(spd[0], spd[1], spd[2], spd[3], spd[4], spd[5]);
 
 			FlxControl.player1.setGravity(0, BaseDefs._kGravity);
 		}
@@ -99,18 +106,19 @@ package com.icoplay.pit.entity
 			}
 		}
 
-		public function getWeaponGroup() : FlxGroup
-		{
-			return _playerWeapon.group;
-		}
-
 		public override function update():void
 		{
-			updateControlHandler();
-			animateSprite();
-			if (FlxG.mouse.pressed())
+			if(!_paused)
 			{
-				_playerWeapon.fireAtMouse();
+				updateControlHandler();
+				animateSprite();
+				if (FlxG.mouse.pressed())
+				{
+					_playerWeapon.fireAtMouse();
+				}
+			} else {
+
+
 			}
 			super.update();
 		}
@@ -137,6 +145,20 @@ package com.icoplay.pit.entity
 			{
 				this.play("jump");
 			}
+		}
+
+		public function pause():void
+		{
+			FlxControl.player1.setMovementSpeed(0, 0, 0, 0);
+			this.play("pause");
+			_paused = true;
+		}
+
+		public function unpause():void
+		{
+			var spd : Array = BaseDefs._kPlayerSpeed;
+			FlxControl.player1.setMovementSpeed(spd[0], spd[1], spd[2], spd[3], spd[4], spd[5]);
+			_paused = false;
 		}
 
 		public override function destroy() : void

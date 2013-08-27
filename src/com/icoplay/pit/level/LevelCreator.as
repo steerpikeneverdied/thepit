@@ -1,6 +1,8 @@
 package com.icoplay.pit.level
 {
 	import com.icoplay.pit.asset.RefLib;
+	import com.icoplay.pit.level.dame.BaseLevel;
+	import com.icoplay.pit.level.list.Level_Group1;
 
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
@@ -33,11 +35,15 @@ package com.icoplay.pit.level
 
 		private function populateLevelList():void
 		{
-			_levelList.push(RefLib.Level1);
-			_levelList.push(RefLib.Level2);
-			_levelList.push(RefLib.Level3);
-			_levelList.push(RefLib.Level4);
-			_levelList.push(RefLib.Level5);
+			_levelList.push(Level_Group1);
+			_levelList.push(Level_Group1);
+			_levelList.push(Level_Group1);
+			_levelList.push(Level_Group1);
+			_levelList.push(Level_Group1);
+//			_levelList.push(RefLib.Level2);
+//			_levelList.push(RefLib.Level3);
+//			_levelList.push(RefLib.Level4);
+//			_levelList.push(RefLib.Level5);
 		}
 
 		public function createLevelMap(levelGroup:FlxGroup):void
@@ -64,18 +70,21 @@ package com.icoplay.pit.level
 
 		private function createLevel(levelGroup : FlxGroup, levelToLoad:Class, offset : Point):void
 		{
-			var levelMap : FlxTilemap = new FlxTilemap();
+			var level : BaseLevel = new levelToLoad(true, null, levelGroup);
 
-			levelMap.loadMap(FlxTilemap.bitmapToCSV(getBitmapData(levelToLoad)),RefLib.SoilTiles, 11, 11, FlxTilemap.OFF);
+			var levelMap : FlxTilemap = level.masterLayer.getFirstExtant() as FlxTilemap;
 
 			levelMap.x = offset.x * levelMap.width;
 			levelMap.y = offset.y * levelMap.height;
 
-			levelGroup.add(levelMap);
-
 			_railPoints.push(new Point(levelMap.x + levelMap.width/2, levelMap.y + levelMap.height/2));
 
 			setDefaultDimensions(levelMap);
+		}
+
+		private function onLevelAdded():void
+		{
+
 		}
 
 		private function setDefaultDimensions(levelMap:FlxTilemap):void

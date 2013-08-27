@@ -2,72 +2,61 @@
 <project>
   <version>3.1.3</version>
   <bgColor>0x777777</bgColor>
-  <viewPos x="142.68371212121212" y="103.86666666666666"/>
+  <viewPos x="452" y="103"/>
   <firstLayersTop>false</firstLayersTop>
-  <spriteEntries currentId="1"/>
+  <spriteEntries currentId="2"/>
   <layers>
-    <group name="Group1" id="0" xScroll="1" yScroll="1" visible="true" open="true" locked="false" exports="true">
-      <maplayer name="Map1" id="0" xScroll="1" yScroll="1" x="0" y="0" width="23" height="13" tileset="spritesheet.png" tileWidth="12" tileHeight="12" visible="true" hasHits="false" drawIdx="0" collideIdx="0" eraseIdx="0" locked="false" exports="true" tileSpacingX="12" tileSpacingY="12" xStagger="0" tileOffsetX="0" tileOffsetY="0" isMaster="false" mapType="2d" hasHeight="false" repeatX="false" repeatY="false" sharesTileAnims="true">
-        <row>0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0</row>
-        <row>0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0</row>
-        <row>0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0</row>
-        <row>0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0</row>
-        <row>0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0</row>
-        <row>0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0</row>
-        <row>0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0</row>
-        <row>0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0</row>
-        <row>10,10,14,10,14,14,10,14,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10</row>
-        <row>1,8,8,1,8,8,4,1,4,7,1,1,4,1,1,4,1,1,5,1,1,4,1</row>
-        <row>1,1,8,1,1,1,8,7,7,8,7,8,4,1,8,1,8,8,7,1,8,8,8</row>
-        <row>8,8,7,4,8,8,8,4,4,4,8,8,8,1,7,7,7,4,1,8,4,1,8</row>
-        <row>4,8,8,8,1,7,1,7,8,8,7,4,1,8,1,8,1,8,8,8,1,4,8</row>
-        <tileProperties>
-          <properties/>
-        </tileProperties>
-        <anims>
-          <anim name="leafblock" fps="11" loops="true">1,2,3,4,5,6,7,8,1,1</anim>
-          <anim name="leaftop" fps="10" loops="true">10,11,12,13,14,15,16,17</anim>
-          <anim name="leafblockAlt" fps="10" loops="true">4,5,6,7,8,1,2,3</anim>
-        </anims>
-      </maplayer>
-    </group>
-    <group name="Group2" id="3" xScroll="1" yScroll="1" visible="true" open="true" locked="false" exports="true">
-      <maplayer name="Map1" id="4" xScroll="1" yScroll="1" x="0" y="0" width="10" height="10" tileset="idledefault.png" tileWidth="16" tileHeight="35" visible="true" hasHits="false" drawIdx="1" collideIdx="1" eraseIdx="0" locked="false" exports="true" tileSpacingX="16" tileSpacingY="35" xStagger="0" tileOffsetX="0" tileOffsetY="0" isMaster="false" mapType="2d" hasHeight="false" repeatX="false" repeatY="false">
-        <row>0,0,0,0,0,0,0,0,0,0</row>
-        <row>0,0,0,0,0,0,0,0,0,0</row>
-        <row>0,0,0,1,0,0,0,0,0,0</row>
-        <row>0,0,0,0,0,0,0,0,0,0</row>
-        <row>0,0,0,0,0,0,0,0,0,0</row>
-        <row>0,0,0,0,0,0,0,0,0,0</row>
-        <row>0,0,0,0,0,0,0,0,0,0</row>
-        <row>0,0,0,0,0,0,0,0,0,0</row>
-        <row>0,0,0,0,0,0,0,0,0,0</row>
-        <row>0,0,0,0,0,0,0,0,0,0</row>
-        <tileProperties>
-          <properties/>
-        </tileProperties>
-        <anims>
-          <anim name="idle" fps="10" loops="true">1,2,3,4,5,1,1,1</anim>
-        </anims>
+    <group name="Group1" id="3" xScroll="1" yScroll="1" visible="true" open="true" locked="false" exports="true">
+      <maplayer name="Map1" id="0" xScroll="1" yScroll="1" x="-169" y="-25" width="30" height="30" tileset="import/platform tiles/soilTiles.png" tileWidth="11" tileHeight="11" visible="true" hasHits="false" drawIdx="0" collideIdx="1" eraseIdx="0" locked="false" exports="true" tileSpacingX="11" tileSpacingY="11" xStagger="0" tileOffsetX="0" tileOffsetY="0" isMaster="false" mapType="2d" hasHeight="false" repeatX="false" repeatY="false">
+        <row>16,12,12,12,12,12,12,12,12,12,12,10,0,0,0,0,0,0,0,0,4,12,12,12,12,12,12,12,12,16</row>
+        <row>14,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8</row>
+        <row>14,0,0,7,15,13,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,15,13,0,0,0,0,8</row>
+        <row>14,0,0,8,16,14,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,16,14,0,0,0,0,8</row>
+        <row>14,0,0,8,16,14,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,12,10,0,0,0,0,8</row>
+        <row>14,0,0,4,12,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8</row>
+        <row>14,0,0,0,0,0,0,0,7,13,0,0,0,0,0,0,0,0,0,7,15,13,0,0,0,0,0,0,0,8</row>
+        <row>14,0,0,0,0,0,0,0,8,14,0,0,0,0,0,0,0,0,0,8,16,14,0,0,0,0,0,0,0,8</row>
+        <row>14,0,0,0,0,7,13,0,4,10,0,0,0,0,0,0,0,0,0,4,12,10,0,0,0,0,0,0,0,8</row>
+        <row>14,0,0,0,0,4,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8</row>
+        <row>14,0,0,0,0,0,0,0,0,0,0,7,15,15,15,15,15,13,0,0,0,0,0,0,0,0,0,0,0,8</row>
+        <row>10,0,0,0,0,0,0,0,0,0,0,4,12,12,12,12,12,10,0,0,0,0,0,0,0,0,0,0,0,4</row>
+        <row>0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,13,0,0,0,0</row>
+        <row>0,0,0,0,0,0,0,7,13,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,10,0,0,0,0</row>
+        <row>0,0,0,0,0,0,0,4,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0</row>
+        <row>0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0</row>
+        <row>0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,15,15,15,13,0,0,0,0,0,0,0,0,0,0,0</row>
+        <row>0,0,0,7,15,15,15,13,0,0,0,0,0,0,8,16,16,16,14,0,7,15,13,0,0,0,0,0,0,0</row>
+        <row>13,0,0,4,12,12,12,10,0,0,0,0,0,0,8,16,16,16,14,0,8,16,14,0,0,0,0,0,0,7</row>
+        <row>14,0,0,0,0,0,0,0,0,0,0,0,0,0,4,12,12,12,10,0,4,12,10,0,0,0,0,0,0,8</row>
+        <row>14,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8</row>
+        <row>14,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,15,13,0,0,8</row>
+        <row>14,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,12,10,0,0,8</row>
+        <row>14,0,0,0,0,0,0,0,0,7,15,15,13,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8</row>
+        <row>14,0,0,0,0,0,0,0,0,8,16,16,14,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8</row>
+        <row>14,0,0,7,15,13,0,0,0,4,12,12,10,0,0,0,0,0,0,0,0,7,13,0,0,0,0,0,0,8</row>
+        <row>14,0,0,8,16,14,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,14,0,0,0,0,0,0,8</row>
+        <row>14,0,0,4,12,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,10,0,0,0,0,0,0,8</row>
+        <row>14,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8</row>
+        <row>15,15,15,15,15,15,15,15,15,15,15,13,0,0,0,0,0,0,0,0,7,15,15,15,15,15,15,15,15,15</row>
       </maplayer>
     </group>
   </layers>
   <layerTemplates/>
-  <tileMatrix currentMatrix="0" rows="3" cols="3" randomizeMiddle="true" ignoreClear="false" ignoreMapEdges="true" allowSpecialTiles="false" tileset="">
+  <tileMatrix currentMatrix="1" rows="3" cols="3" randomizeMiddle="true" ignoreClear="false" ignoreMapEdges="true" allowSpecialTiles="false" tileset="import/platform tiles/soilTiles.png">
     <row>
-      <tile>0</tile>
-      <tile>0</tile>
-      <tile>0</tile>
+      <tile>7</tile>
+      <tile>15</tile>
+      <tile>13</tile>
     </row>
     <row>
-      <tile>0</tile>
-      <tile>0</tile>
-      <tile>0</tile>
+      <tile>8</tile>
+      <tile>16</tile>
+      <tile>14</tile>
     </row>
     <row>
-      <tile>0</tile>
-      <tile>0</tile>
-      <tile>0</tile>
+      <tile>4</tile>
+      <tile>12</tile>
+      <tile>10</tile>
     </row>
     <specialConnections>
       <sets>
@@ -134,7 +123,16 @@
       </rows>
     </specialConnections>
   </tileMatrix>
-  <tileMatrixData name="matrix1" rows="3" cols="3" randomizeMiddle="true" ignoreClear="false" ignoreMapEdges="true" allowSpecialTiles="false" tileset="">
+  <tileMatrixData name="matrix1" rows="3" cols="3" randomizeMiddle="true" ignoreClear="false" ignoreMapEdges="true" allowSpecialTiles="false" tileset="import/platform tiles/soilTiles.png">
+    <tiles>0,0,0,0,0,0,0,0,0</tiles>
+    <connections set="0">
+      <tiles>0,0,0,0</tiles>
+    </connections>
+    <connections set="0">
+      <tiles>0,0,0,0</tiles>
+    </connections>
+  </tileMatrixData>
+  <tileMatrixData name="matrix2" rows="3" cols="3" randomizeMiddle="true" ignoreClear="false" ignoreMapEdges="true" allowSpecialTiles="false" tileset="import/platform tiles/soilTiles.png">
     <tiles>0,0,0,0,0,0,0,0,0</tiles>
     <connections set="0">
       <tiles>0,0,0,0</tiles>
@@ -193,13 +191,13 @@
     <setting name="Imports"/>
     <setting name="TileMapClass">FlxTilemap</setting>
     <setting name="FlixelPackage">org.flixel</setting>
-    <setting name="GamePackage">com</setting>
+    <setting name="GamePackage">com.icoplay.pit</setting>
     <setting name="IntermediateClass"/>
     <setting name="BaseClassExtends"/>
     <setting name="BaseClass">BaseLevel</setting>
     <setting name="FlixelVersion">2.5</setting>
-    <setting name="CSVDir">C:\Users\Simon</setting>
-    <setting name="AS3Dir">C:\Users\Simon\Documents\pit\src\com\icoplay\pit</setting>
+    <setting name="CSVDir">C:\Users\Simon\Documents\thepit\assets\csv</setting>
+    <setting name="AS3Dir">C:\Users\Simon\Documents\thepit\src\com\icoplay\pit\level\level1</setting>
   </exporter>
   <customPropertyTypes/>
   <guides>
