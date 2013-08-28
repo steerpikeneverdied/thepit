@@ -2,6 +2,7 @@ package com.icoplay.pit.states
 {
 	import com.icoplay.pit.camera.LevelCam;
 	import com.icoplay.pit.entity.Explosion;
+	import com.icoplay.pit.entity.QBox;
 	import com.icoplay.pit.entity.Target;
 	import com.icoplay.pit.level.LevelCreator;
 	import com.icoplay.pit.entity.Player;
@@ -37,10 +38,10 @@ package com.icoplay.pit.states
 			super.create();
 
 			createGroups();
+
 			createLevelSelection();
 			createPlayer();
 			createCamera();
-			createTarget();
 			createScore();
 		}
 
@@ -56,9 +57,9 @@ package com.icoplay.pit.states
 
 			add(_levelGroup);
 			add(_collectibleGroup);
+			add(_objectGroup);
 			add(_playerGroup);
 			add(_weaponGroup);
-			add(_objectGroup);
 			add(_fxGroup);
 			add(_guiGroup);
 		}
@@ -66,7 +67,7 @@ package com.icoplay.pit.states
 		private function createLevelSelection():void
 		{
 			_levelCreator = new LevelCreator();
-			_levelCreator.createLevelMap(_levelGroup);
+			_levelCreator.createLevelMap(_levelGroup, _objectGroup);
 		}
 
 		private function createPlayer():void
@@ -74,15 +75,6 @@ package com.icoplay.pit.states
 			_player = new Player(_weaponGroup, _levelCreator, WeaponLibrary.getWeapon(WeaponLibrary.RIFLE));
 			_player.x = _levelCreator.levelWidth*1.5;
 			_playerGroup.add(_player);
-		}
-
-		private function createTarget():void
-		{
-			var target : Target = new Target();
-			target.x = 450+Math.random()*450;
-			target.y = 100+Math.random()*100;
-
-			_objectGroup.add(target);
 		}
 
 		private function createCamera():void
@@ -111,27 +103,33 @@ package com.icoplay.pit.states
 
 		public override function update() : void
 		{
+			super.update();
 			checkCollisionGroups();
 			checkCameraLocation();
 			checkDeadFX();
-			super.update();
 		}
 
 		private function checkCollisionGroups():void
 		{
 			FlxG.collide(_playerGroup, _levelGroup);
-			FlxG.collide(_weaponGroup, _objectGroup, onTargetHit);
+			FlxG.overlap(_playerGroup, _objectGroup, onObjectHit);
+			FlxG.overlap(_weaponGroup, _objectGroup, onObjectHit);
 			FlxG.collide(_weaponGroup, _levelGroup, onLevelHit);
 		}
 
-		private function onTargetHit(Object1:FlxObject,Object2:FlxObject):void
+		private function onObjectHit(Object1:FlxObject,Object2:FlxObject):void
 		{
-			var objArray : Array = FlxSort.sortCollision(Object1, Object2, Target.NAME, Weapon.BULLET);
-
 			if(FlxSort.getClassName(Object1) == Weapon.BULLET && FlxSort.getClassName(Object2) == Target.NAME)
 			{
 				createExplosion(Object2 as Target);
 				(Object1 as Bullet).exists = false;
+			}
+
+			if(FlxSort.getClassName(Object1) == Player.NAME && FlxSort.getClassName(Object2) == QBox.NAME)
+			{
+				(Object1 as Player).setBonus((Object2 as QBox).getBonus());
+				_objectGroup.remove(Object2);
+				Object2.destroy();
 			}
 		}
 

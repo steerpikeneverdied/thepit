@@ -1,13 +1,21 @@
 package com.icoplay.pit.level
 {
-	import com.icoplay.pit.asset.RefLib;
+	import com.icoplay.pit.entity.QBox;
+	import com.icoplay.pit.entity.Target;
 	import com.icoplay.pit.level.dame.BaseLevel;
-	import com.icoplay.pit.level.list.Level_Group1;
+	import com.icoplay.pit.level.dame.Marker;
+	import com.icoplay.pit.level.dame.MarkerLevel;
+	import com.icoplay.pit.level.list.Level_1;
 
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.geom.Point;
+	import flash.utils.getDefinitionByName;
+	import flash.utils.getQualifiedClassName;
+
 	import org.flixel.FlxGroup;
+	import org.flixel.FlxObject;
+	import org.flixel.FlxSprite;
 	import org.flixel.FlxTilemap;
 
 	public class LevelCreator
@@ -25,7 +33,10 @@ package com.icoplay.pit.level
 		private var BOTTOM : Point   = new Point(1,2);
 		private var COORDS : Vector.<Point> = new <Point>[TOP,LEFT,CENTRE,RIGHT,BOTTOM];
 
+		private var CLASSES : Vector.<Class> = new <Class>[QBox, Target];
+
 		private var _railPoints : Vector.<Point> = new Vector.<Point>();
+		private var _objectGroup : FlxGroup;
 
 
 		public function LevelCreator()
@@ -35,19 +46,17 @@ package com.icoplay.pit.level
 
 		private function populateLevelList():void
 		{
-			_levelList.push(Level_Group1);
-			_levelList.push(Level_Group1);
-			_levelList.push(Level_Group1);
-			_levelList.push(Level_Group1);
-			_levelList.push(Level_Group1);
-//			_levelList.push(RefLib.Level2);
-//			_levelList.push(RefLib.Level3);
-//			_levelList.push(RefLib.Level4);
-//			_levelList.push(RefLib.Level5);
+			_levelList.push(Level_1);
+			_levelList.push(Level_1);
+			_levelList.push(Level_1);
+			_levelList.push(Level_1);
+			_levelList.push(Level_1);
 		}
 
-		public function createLevelMap(levelGroup:FlxGroup):void
+		public function createLevelMap(levelGroup:FlxGroup, objectGroup:FlxGroup):void
 		{
+			_objectGroup = objectGroup;
+
 			var levelList : Vector.<Class> = returnLevelSelection();
 
 			for(var i : int = 0; i<levelList.length; i++)
@@ -70,21 +79,43 @@ package com.icoplay.pit.level
 
 		private function createLevel(levelGroup : FlxGroup, levelToLoad:Class, offset : Point):void
 		{
-			var level : BaseLevel = new levelToLoad(true, null, levelGroup);
+			var level : MarkerLevel = new levelToLoad(true, onObjectAdded, levelGroup);
 
-			var levelMap : FlxTilemap = level.masterLayer.getFirstExtant() as FlxTilemap;
 
-			levelMap.x = offset.x * levelMap.width;
-			levelMap.y = offset.y * levelMap.height;
+			var tm : FlxTilemap = level.getTilemap();
+			tm.x = offset.x * tm.width;
+			tm.y = offset.y * tm.height;
+			_railPoints.push(new Point(tm.x + tm.width/2, tm.y + tm.height/2));
 
-			_railPoints.push(new Point(levelMap.x + levelMap.width/2, levelMap.y + levelMap.height/2));
 
-			setDefaultDimensions(levelMap);
+			var objs : FlxGroup = level.getObjects();
+
+			for(var i:int = 0; i<objs.members.length-1; i++)
+			{
+				var obj : FlxObject = objs.members[i];
+				obj.x += tm.x + MarkerLevel.SPRITE_OFFSET_X;
+				obj.y += tm.y + MarkerLevel.SPRITE_OFFSET_Y;
+
+				if(Class(getDefinitionByName(getQualifiedClassName(obj))) == Marker)
+				{
+					var repItem : FlxSprite = new ((CLASSES[(obj as Marker).repKey]));
+					repItem.x = obj.x;
+					repItem.y = obj.y;
+
+					_objectGroup.add(repItem);
+					objs.remove(obj);
+				}
+			}
+
+			setDefaultDimensions(tm);
 		}
 
-		private function onLevelAdded():void
+		private function onObjectAdded(data:Object, layer:FlxGroup, level:BaseLevel, scrollX:Number, scrollY:Number, properties : Array):void
 		{
-
+			if(Class(getDefinitionByName(getQualifiedClassName(data))) == Marker)
+			{
+				(data as Marker).repKey = properties[0];
+			}
 		}
 
 		private function setDefaultDimensions(levelMap:FlxTilemap):void

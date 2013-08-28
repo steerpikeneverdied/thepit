@@ -17,7 +17,7 @@ package com.icoplay.pit.asset
 
 		// Object Sprites
 		[Embed(source='../../../../../assets/import/object sprites/targets/targetTemp.png')]    public static var TargetG:Class;
-		[Embed(source='../../../../../assets/import/object sprites/powerups/boxTemp.png')]      public static var BoxB:Class;
+		[Embed(source='../../../../../assets/import/object sprites/powerups/qboxTemp.png')]     public static var QBoxG:Class;
 
 		// Platform Tiles
 		[Embed(source='../../../../../assets/import/platform tiles/soilTiles.png')]             public static var SoilTiles:Class;

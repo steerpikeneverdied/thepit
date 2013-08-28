@@ -1,6 +1,6 @@
 //Code generated with DAME. http://www.dambots.com
 
-package com.icoplay.pit.level.dame
+package com.icoplay.pit
 {
 	import org.flixel.*;
 	import flash.utils.Dictionary;
@@ -148,5 +148,8 @@ package com.icoplay.pit.level.dame
 			}
 			shapes = null;
 		}
+
+		// List of null classes allows you to spawn levels dynamically from code using ClassReference.
+		private static var level_1:Level_1;
 	}
 }

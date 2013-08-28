@@ -18,6 +18,7 @@ package com.icoplay.pit.entity
 
 	public class Player extends FlxSprite
 	{
+		public static const NAME : String = 'Player'
 		private static const _kDefaultHeightOffset:int = 2;
 		private var _playerWeapon:FlxWeapon;
 		private var _weaponGroup:FlxGroup;
@@ -182,6 +183,11 @@ package com.icoplay.pit.entity
 
 			FlxControl.clear();
 			super.destroy();
+		}
+
+		public function setBonus(bonus:int):void
+		{
+			trace(QBox.BONUSES[bonus]);
 		}
 	}
 }
