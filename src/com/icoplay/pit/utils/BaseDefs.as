@@ -7,6 +7,6 @@ package com.icoplay.pit.utils
 		public static const _kLevelTime : int       = 10;
 		public static const _kGravity : int         = 450;
 		public static const _kFXFrameRate:Number    = 20;
-		public static const _kPlayerSpeed : Array   = [400, 0, 100, 200, 700, 0];
+		public static const _kPlayerSpeed : Array   = [400, 0, 100, 200, 1700, 0];
 	}
 }
